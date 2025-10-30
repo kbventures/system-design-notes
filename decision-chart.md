@@ -1,5 +1,23 @@
 # System Design Decision Charts
 
+## Table of Contents
+
+- [Uptime Requirements](#uptime-requirements)
+- [Database Choice](#database-choice)
+- [Caching Strategy](#caching-strategy)
+- [Consistency Models](#consistency-models)
+- [Read vs Write Patterns](#read-vs-write-patterns)
+- [Storage Estimates](#storage-estimates)
+- [Latency Numbers](#latency-numbers)
+- [Traffic Scaling](#traffic-scaling)
+- [CAP Theorem Priorities](#cap-theorem-priorities)
+- [Data Retention](#data-retention)
+- [Load Balancing](#load-balancing)
+- [API Rate Limiting](#api-rate-limiting)
+- [Partitioning Strategy](#partitioning-strategy)
+
+---
+
 ## Uptime Requirements
 
 | Service Type         | Uptime  | Downtime/Year | Examples                            |
@@ -53,6 +71,27 @@
 | **Image (compressed)** | 200 KB    | JPEG, PNG                    |
 | **Video (1 min)**      | 10 MB     | Compressed streaming quality |
 | **Video (1 min HD)**   | 50 MB     | High quality                 |
+
+## Latency Numbers
+
+| Operation                       | Latency | Notes             |
+| ------------------------------- | ------- | ----------------- |
+| **L1 cache**                    | 1 ns    | Fastest           |
+| **L2 cache**                    | 4 ns    |                   |
+| **RAM**                         | 100 ns  |                   |
+| **SSD read**                    | 100 μs  | 100,000 ns        |
+| **HDD seek**                    | 10 ms   | 10,000,000 ns     |
+| **Network (same datacenter)**   | 500 μs  | 0.5 ms            |
+| **Network (cross-country)**     | 150 ms  | US coast to coast |
+| **Network (intercontinental)**  | 300 ms  | US to Europe/Asia |
+| **Packet roundtrip (internet)** | 150 ms  | Average           |
+
+### Key Takeaways
+
+- **Memory is ~100x faster than SSD**
+- **SSD is ~100x faster than HDD**
+- **Network within datacenter is fast (~0.5ms)**
+- **Cross-country adds significant latency (150ms)**
 
 ## Traffic Scaling
 
